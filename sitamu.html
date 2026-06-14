@@ -34,28 +34,6 @@
             padding: 24px 16px;
         }
 
-        /* ===== BRAND ATAS ===== */
-        .top-brand {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .top-brand-title {
-            font-size: 22px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--teal), var(--teal-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.4px;
-        }
-
-        .top-brand-sub {
-            font-size: 13px;
-            color: var(--text-3);
-            margin-top: 4px;
-        }
-
         /* ===== CARD ===== */
         .login-card {
             background: var(--white);
@@ -64,6 +42,68 @@
             width: 100%;
             max-width: 420px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        /* Brand di dalam card */
+        .brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-icon {
+            font-size: 32px;
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, rgba(17,153,142,0.12), rgba(56,239,125,0.08));
+            border: 2px solid rgba(17,153,142,0.18);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-1);
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+
+        .brand-sub {
+            font-size: 13px;
+            color: var(--text-3);
+        }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            background: var(--bg);
+            border-radius: var(--r-sm);
+            padding: 4px;
+            margin-bottom: 24px;
+            gap: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-3);
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            background: var(--white);
+            color: var(--teal-dark);
+            box-shadow: 0 1px 4px rgba(15,23,41,0.08);
         }
 
         .card-title {
@@ -273,21 +313,26 @@
 </head>
 <body>
 
-    <!-- Brand di atas card -->
-    <div class="top-brand">
-        <div class="top-brand-title">📩 Catatan Undangan Digital</div>
-        <div class="top-brand-sub">Solusi pencatatan tamu hajatan berbasis cloud</div>
-    </div>
-
     <div class="login-card">
+
+        <!-- Brand di dalam card -->
+        <div class="brand">
+            <div class="brand-icon">📩</div>
+            <div class="brand-title">Catatan Undangan Digital</div>
+            <div class="brand-sub">Masuk untuk mulai mencatat tamu undangan</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin"  onclick="switchTab('login')">Masuk</button>
+            <button class="auth-tab"        id="tabDaftar" onclick="switchTab('daftar')">Daftar Akun</button>
+        </div>
 
         <div class="alert alert-error"   id="alertError"></div>
         <div class="alert alert-success" id="alertSuccess"></div>
 
         <!-- ===== PANEL LOGIN ===== -->
         <div class="auth-panel active" id="panelLogin">
-            <div class="card-title">Masuk</div>
-            <div class="card-sub">Masuk untuk mengelola catatan amplop digital Anda</div>
 
             <div class="form-group">
                 <label for="loginEmail">Email</label>
@@ -306,10 +351,6 @@
             </div>
 
             <button class="btn-submit" id="btnLogin" onclick="doLogin()">Masuk Sekarang</button>
-
-            <div class="bottom-link">
-                Belum punya akun? <button onclick="switchTab('daftar')">Daftar Akun Baru</button>
-            </div>
         </div>
 
         <!-- ===== PANEL RESET PASSWORD ===== -->
@@ -332,9 +373,6 @@
 
         <!-- ===== PANEL DAFTAR ===== -->
         <div class="auth-panel" id="panelDaftar">
-            <div class="card-title">Daftar Akun</div>
-            <div class="card-sub">Buat akun baru untuk mulai mencatat tamu undangan</div>
-
             <div class="form-group">
                 <label for="daftarEmail">Email</label>
                 <input type="email" id="daftarEmail" class="form-control" placeholder="nama@email.com">
@@ -356,17 +394,12 @@
 
             <button class="btn-submit" id="btnDaftar" onclick="doDaftar()">Buat Akun</button>
 
-            <div class="bottom-link">
-                Sudah punya akun? <button onclick="switchTab('login')">Masuk di sini</button>
-            </div>
-            <div class="bottom-link" style="margin-top:8px; font-size:12px;">
+            <div class="bottom-link" style="font-size:12px;">
                 Setelah daftar, akun perlu disetujui admin sebelum bisa digunakan.
             </div>
         </div>
 
     </div>
-
-    <div class="footer-note">© 2026 Catatan Undangan Digital · WA: 0813-4702-7844</div>
 
 <script type="module">
     import { initializeApp }         from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -464,7 +497,12 @@
         ['login','daftar'].forEach(t => {
             document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1))
                 .classList.toggle('active', t === tab);
+            document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1))
+                .classList.toggle('active', t === tab);
         });
+        // Sembunyikan reset panel jika tab diklik
+        document.getElementById('resetPanel').classList.remove('show');
+        document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
     };
 
     // ===== TOGGLE PASSWORD =====
@@ -545,6 +583,8 @@
         clearAlerts();
         document.getElementById('panelLogin').classList.remove('active');
         document.getElementById('resetPanel').classList.add('show');
+        document.querySelector('.auth-tabs').style.display = 'none';
+        document.querySelector('.brand').style.display = 'none';
         const email = document.getElementById('loginEmail').value.trim();
         if (email) document.getElementById('resetEmail').value = email;
     };
@@ -553,6 +593,8 @@
         clearAlerts();
         document.getElementById('resetPanel').classList.remove('show');
         document.getElementById('panelLogin').classList.add('active');
+        document.querySelector('.auth-tabs').style.display = 'flex';
+        document.querySelector('.brand').style.display = 'flex';
     };
 
     // ===== RESET PASSWORD =====
