@@ -170,12 +170,11 @@
 
         .btn-toggle-pw:hover { color: var(--teal-dark); }
 
-        /* Lupa password link — di atas tombol, rata kanan */
+        /* Lupa password link — di bawah tombol, center */
         .lupa-row {
             display: flex;
-            justify-content: flex-end;
-            margin-top: -8px;
-            margin-bottom: 18px;
+            justify-content: center;
+            margin-top: 16px;
         }
 
         .lupa-pw-link {
@@ -346,11 +345,11 @@
                 </div>
             </div>
 
+            <button class="btn-submit" id="btnLogin" onclick="doLogin()">Masuk Sekarang</button>
+
             <div class="lupa-row">
                 <button class="lupa-pw-link" onclick="showResetPanel()">Lupa Password?</button>
             </div>
-
-            <button class="btn-submit" id="btnLogin" onclick="doLogin()">Masuk Sekarang</button>
         </div>
 
         <!-- ===== PANEL RESET PASSWORD ===== -->
