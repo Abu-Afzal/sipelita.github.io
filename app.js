@@ -71,7 +71,7 @@ onAuthStateChanged(auth, (user) => {
 function keLogin(pesan = "") {
     if (pesan) alert(pesan);
     if (dbListenerRef && currentUser) off(dbListenerRef);
-    signOut(auth).then(() => { window.location.href = "sitamu.html"; });
+    signOut(auth).then(() => { window.location.href = "login.html"; });
 }
 
 document.getElementById('btnLogout').addEventListener('click', () => {
